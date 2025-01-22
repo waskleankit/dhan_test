@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dhan Market Feed</title>
+    <script>
+        async function startFeed() {
+            const response = await fetch('/start_feed', { method: 'POST' });
+            const data = await response.json();
+            alert(data.status);
+        }
+
+        async function stopFeed() {
+            const response = await fetch('/stop_feed', { method: 'POST' });
+            const data = await response.json();
+            alert(data.status);
+        }
+
+        async function fetchData() {
+            const response = await fetch('/get_data');
+            const data = await response.json();
+            document.getElementById('ltp-data').innerText = data.message;
+        }
+
+        setInterval(fetchData, 2000); // Fetch data every 2 seconds
+    </script>
+</head>
+<body>
+<h1>Dhan Market Feed</h1>
+<button onclick="startFeed()">Start Feed</button>
+<button onclick="stopFeed()">Stop Feed</button>
+<h2>Live Market Data:</h2>
+<p id="ltp-data">No data received yet.</p>
+</body>
+</html>
