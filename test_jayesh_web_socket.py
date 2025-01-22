@@ -23,7 +23,11 @@ def run_dhan_feed():
     dhan_feed = marketfeed.DhanFeed(
         client_id=client_id,
         access_token=access_token,
-        instruments=[(2, '54666')]
+        instruments=[(2, '54666')],
+        subscription_code=15,
+        on_connect=on_connect,
+        on_message=on_message,
+        on_close=on_close
     )
     dhan_feed.on_connect = on_connect
     dhan_feed.on_message = on_message
