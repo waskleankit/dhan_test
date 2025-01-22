@@ -7,11 +7,12 @@ async def on_connect(instance):
     st.write("Connection established")
 
 async def on_message(instance, message):
-    st.write(message)
-    if message["type"] == "Ticker Data":
-        token = message['security_id']
-        ltp = f"{message['LTP']}"
-        st.session_state["ltp_data"] = f"LTP for token {token}: {ltp}"
+    st.write('None message')
+    if message != None:
+        if message["type"] == "Ticker Data":
+            token = message['security_id']
+            ltp = f"{message['LTP']}"
+            st.session_state["ltp_data"] = f"LTP for token {token}: {ltp}"
 
 async def on_close(instance):
     st.write("WebSocket closed.")
