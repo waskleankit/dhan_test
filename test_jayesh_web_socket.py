@@ -18,7 +18,7 @@ async def on_close(instance):
 
 # Function to run Dhan feed
 def run_dhan_feed():
-    st.write("WebSocket starting runforever.")
+
     client_id = '1101864216'
     access_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzQwMDI3NDA2LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwMTg2NDIxNiJ9.9Pr25SUPuI5pKPk2vJtZ30_FoEi8qQIttlHUKs_wXpGFa_9-wjufjSK-Oqh5hPX6j1Q8eviHXGTVOCeq5qw0Bw'
 
@@ -31,6 +31,7 @@ def run_dhan_feed():
         on_message=on_message,
         on_close=on_close
     )
+    st.write("WebSocket starting runforever.")
     dhan_feed.run_forever()
     st.write("WebSocket started runforever.")
 
