@@ -3,10 +3,10 @@ from flask import Flask, request
 from threading import Thread
 import json
 
-# Initialize global variable to store received data
+# Global variable to store received data
 received_data = []
 
-# Function to run Flask server
+# Flask app for receiving data
 def start_flask():
     app = Flask(__name__)
 
@@ -19,43 +19,44 @@ def start_flask():
             data = request.get_json() if request.is_json else request.get_data(as_text=True)
             ip_address = request.remote_addr
 
-            # Append received data to the global list
+            # Append the received request data
             received_data.append({
                 "headers": headers,
                 "data": data,
                 "ip_address": ip_address
             })
 
-            # Respond to webhook request
-            return "Webhook received successfully", 200
+            # Respond to the webhook request
+            return "Data received successfully", 200
         except Exception as e:
-            return f"Error: {e}", 500
+            return f"Error occurred: {e}", 500
 
     # Run Flask app on port 8500
     app.run(host="0.0.0.0", port=8500)
 
-# Start Flask in a separate thread
-thread = Thread(target=start_flask, daemon=True)
-thread.start()
+# Start the Flask server in a separate thread
+flask_thread = Thread(target=start_flask, daemon=True)
+flask_thread.start()
 
-# Streamlit User Interface
-st.title("Webhook Receiver & Viewer")
-st.write("This app receives data sent to the webhook URL and displays it in real-time.")
+# Streamlit Interface
+st.title("Webhook Receiver")
+st.write("This app is set up only to receive data at the specified webhook URL.")
 
-# Display the webhook URL
 st.subheader("Webhook URL")
 st.code("https://ankitwebhookdhantest.streamlit.app/webhook", language='bash')
-st.write("Use this URL to send POST/GET data.")
+st.write("This URL is dedicated to receiving POST or GET requests.")
 
-# Button to refresh and display received data
+# Display received data in Streamlit
 st.subheader("Received Data")
-if st.button("Refresh Data"):
-    if received_data:
-        for idx, entry in enumerate(received_data):
-            st.write(f"### Entry {idx + 1}")
-            st.json(entry)
-    else:
-        st.info("No data received yet. Send some data to the webhook to get started.")
+if received_data:
+    st.write("### Latest Data Received")
+    for idx, entry in enumerate(received_data[-5:]):  # Show only the last 5 entries
+        st.write(f"#### Entry {idx + 1}")
+        st.json(entry)
+else:
+    st.info("No data has been received yet.")
+
+st.caption("This app is for data reception only. Send POST or GET requests to the provided webhook URL.")
 
 
 # import streamlit as st
