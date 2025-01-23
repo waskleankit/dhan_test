@@ -1,55 +1,52 @@
-# import streamlit as st
-# import time
-# from dhanhq import dhanhq
-#
-# # Title and Description
-# st.title("Real-Time Order Tracker")
-# st.write("This app fetches and displays updated orders from DhanHQ in real-time.")
-#
-# # Client credentials
-# client_id = '1101864216'
-# access_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzQwMDI3NDA2LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwMTg2NDIxNiJ9.9Pr25SUPuI5pKPk2vJtZ30_FoEi8qQIttlHUKs_wXpGFa_9-wjufjSK-Oqh5hPX6j1Q8eviHXGTVOCeq5qw0Bw'
-#
-# # Initialize DhanHQ client
-# try:
-#     dhan = dhanhq(client_id, access_token)
-# except Exception as e:
-#     st.error(f"Failed to initialize DhanHQ client: {e}")
-#     st.stop()
-#
-# # Create a container to display the orders
-# placeholder = st.empty()
-#
-# # Real-time Order Tracker Function
-# def fetch_orders():
-#     try:
-#         while True:
-#             # Fetch the list of orders
-#             orders = dhan.get_order_list()
-#
-#             # Update the Streamlit app with the fetched orders
-#             with placeholder.container():
-#                 st.subheader("Updated Orders")
-#                 if orders:
-#                     st.json(orders)
-#                 else:
-#                     st.info("No orders found.")
-#                 st.write("=" * 50)
-#
-#             # Sleep to avoid overwhelming the server
-#             time.sleep(5)
-#     except Exception as e:
-#         st.error(f"Error fetching orders: {e}")
-#     except KeyboardInterrupt:
-#         st.info("Stopped fetching orders.")
-#
-# # Streamlit Button to Start Fetching Orders
-# if st.button("Start Tracking Orders"):
-#     st.info("Fetching orders...")
-#     fetch_orders()
+import streamlit as st
+import time
+from dhanhq import dhanhq
 
+# Title and Description
+st.title("Real-Time Order Tracker")
+st.write("This app fetches and displays updated orders from DhanHQ in real-time.")
 
+# Client credentials
+client_id = '1101864216'
+access_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzQwMDI3NDA2LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwMTg2NDIxNiJ9.9Pr25SUPuI5pKPk2vJtZ30_FoEi8qQIttlHUKs_wXpGFa_9-wjufjSK-Oqh5hPX6j1Q8eviHXGTVOCeq5qw0Bw'
 
+# Initialize DhanHQ client
+try:
+    dhan = dhanhq(client_id, access_token)
+except Exception as e:
+    st.error(f"Failed to initialize DhanHQ client: {e}")
+    st.stop()
+
+# Create a container to display the orders
+placeholder = st.empty()
+
+# Real-time Order Tracker Function
+def fetch_orders():
+    try:
+        while True:
+            # Fetch the list of orders
+            orders = dhan.get_order_list()
+
+            # Update the Streamlit app with the fetched orders
+            with placeholder.container():
+                st.subheader("Updated Orders")
+                if orders:
+                    st.json(orders)
+                else:
+                    st.info("No orders found.")
+                st.write("=" * 50)
+
+            # Sleep to avoid overwhelming the server
+            time.sleep(5)
+    except Exception as e:
+        st.error(f"Error fetching orders: {e}")
+    except KeyboardInterrupt:
+        st.info("Stopped fetching orders.")
+
+# Streamlit Button to Start Fetching Orders
+if st.button("Start Tracking Orders"):
+    st.info("Fetching orders...")
+    fetch_orders()
 
 
 # import streamlit as st
