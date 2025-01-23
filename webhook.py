@@ -105,69 +105,69 @@ if st.button("Start Tracking Orders"):
 # st.stop()
 #
 #
-import streamlit as st
-import json
-import time
-from threading import Event, Thread
-
-url = None
-headers = None
-timestamp = None
-stop_event = Event()
-
-def generate_event_stream():
-    global url, headers, timestamp, stop_event
-
-    while not stop_event.is_set():
-        output = {
-            'timestamp': timestamp,
-            'url': url,
-            'headers': headers
-        }
-        st.write(f"data: {json.dumps(output)}")
-        st.markdown("""---""")
-        time.sleep(0.5)
-
-def handle_postback():
-    global url, headers, timestamp
-
-    data = st.session_state.get('data', None)
-    if data:
-        url = data['url']
-        headers = data['headers']
-        timestamp = data['time']
-
-        print(f'Received new data at {timestamp}:')
-        print(f'URL: {url}')
-        print(f'Headers: {headers}')
-
-def start_update_stream():
-    global stop_event
-    stop_event.clear()
-    Thread(target=generate_event_stream, daemon=True).start()
-    st.session_state['is_running'] = True
-
-def stop_update_stream():
-    global stop_event
-    stop_event.set()
-    st.session_state['is_running'] = False
-
-st.title("Webhook Listener")
-
-if 'data' not in st.session_state:
-    st.session_state['data'] = None
-
-if 'is_running' not in st.session_state:
-    st.session_state['is_running'] = False
-
-if st.button("Start"):
-    handle_postback()
-    start_update_stream()
-
-if st.button("Stop"):
-    stop_update_stream()
-
-if st.session_state['is_running']:
-    st.write("Real-time updates are running...")
-else:
-    st.write("Real-time updates are stopped.")
+# import streamlit as st
+# import json
+# import time
+# from threading import Event, Thread
+#
+# url = None
+# headers = None
+# timestamp = None
+# stop_event = Event()
+#
+# def generate_event_stream():
+#     global url, headers, timestamp, stop_event
+#
+#     while not stop_event.is_set():
+#         output = {
+#             'timestamp': timestamp,
+#             'url': url,
+#             'headers': headers
+#         }
+#         st.write(f"data: {json.dumps(output)}")
+#         st.markdown("""---""")
+#         time.sleep(0.5)
+#
+# def handle_postback():
+#     global url, headers, timestamp
+#
+#     data = st.session_state.get('data', None)
+#     if data:
+#         url = data['url']
+#         headers = data['headers']
+#         timestamp = data['time']
+#
+#         print(f'Received new data at {timestamp}:')
+#         print(f'URL: {url}')
+#         print(f'Headers: {headers}')
+#
+# def start_update_stream():
+#     global stop_event
+#     stop_event.clear()
+#     Thread(target=generate_event_stream, daemon=True).start()
+#     st.session_state['is_running'] = True
+#
+# def stop_update_stream():
+#     global stop_event
+#     stop_event.set()
+#     st.session_state['is_running'] = False
+#
+# st.title("Webhook Listener")
+#
+# if 'data' not in st.session_state:
+#     st.session_state['data'] = None
+#
+# if 'is_running' not in st.session_state:
+#     st.session_state['is_running'] = False
+#
+# if st.button("Start"):
+#     handle_postback()
+#     start_update_stream()
+#
+# if st.button("Stop"):
+#     stop_update_stream()
+#
+# if st.session_state['is_running']:
+#     st.write("Real-time updates are running...")
+# else:
+#     st.write("Real-time updates are stopped.")
