@@ -79,7 +79,7 @@ class WebhookHandler(BaseHTTPRequestHandler):
 
 # Start a server in a separate thread
 def start_server():
-    server = HTTPServer(('https://ankitwebhookdhantest.streamlit.app', 5000), WebhookHandler)
+    server = HTTPServer(('https://ankitwebhookdhantest.streamlit.app'), WebhookHandler)
     server.serve_forever()
 
 # Streamlit App
