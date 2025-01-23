@@ -26,88 +26,36 @@ def start_flask():
                 "ip_address": ip_address
             })
 
-            # Respond to the webhook request
-            return "Data received successfully", 200
+            # Respond to webhook request
+            return "Webhook received successfully", 200
         except Exception as e:
             return f"Error occurred: {e}", 500
 
     # Run Flask app on port 8500
     app.run(host="0.0.0.0", port=8500)
 
-# Start the Flask server in a separate thread
-flask_thread = Thread(target=start_flask, daemon=True)
-flask_thread.start()
+# Start Flask in a separate thread
+thread = Thread(target=start_flask, daemon=True)
+thread.start()
 
-# Streamlit Interface
-st.title("Webhook Receiver")
-st.write("This app is set up only to receive data at the specified webhook URL.")
+# Streamlit User Interface
+st.title("Webhook Receiver & Viewer")
+st.write("This app receives data sent to the webhook URL and displays it in real-time.")
 
+# Display the webhook URL
 st.subheader("Webhook URL")
 st.code("https://ankitwebhookdhantest.streamlit.app/webhook", language='bash')
-st.write("This URL is dedicated to receiving POST or GET requests.")
+st.write("Use this URL to send POST/GET data.")
 
-# Display received data in Streamlit
+# Button to refresh and display received data
 st.subheader("Received Data")
-if received_data:
-    st.write("### Latest Data Received")
-    for idx, entry in enumerate(received_data[-5:]):  # Show only the last 5 entries
-        st.write(f"#### Entry {idx + 1}")
-        st.json(entry)
-else:
-    st.info("No data has been received yet.")
-
-st.caption("This app is for data reception only. Send POST or GET requests to the provided webhook URL.")
-
-
-# import streamlit as st
-# import time
-# from dhanhq import dhanhq
-#
-# # Title and Description
-# st.title("Real-Time Order Tracker")
-# st.write("This app fetches and displays updated orders from DhanHQ in real-time.")
-#
-# # Client credentials
-# client_id = '1101864216'
-# access_token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJkaGFuIiwicGFydG5lcklkIjoiIiwiZXhwIjoxNzQwMDI3NDA2LCJ0b2tlbkNvbnN1bWVyVHlwZSI6IlNFTEYiLCJ3ZWJob29rVXJsIjoiIiwiZGhhbkNsaWVudElkIjoiMTEwMTg2NDIxNiJ9.9Pr25SUPuI5pKPk2vJtZ30_FoEi8qQIttlHUKs_wXpGFa_9-wjufjSK-Oqh5hPX6j1Q8eviHXGTVOCeq5qw0Bw'
-#
-# # Initialize DhanHQ client
-# try:
-#     dhan = dhanhq(client_id, access_token)
-# except Exception as e:
-#     st.error(f"Failed to initialize DhanHQ client: {e}")
-#     st.stop()
-#
-# # Create a container to display the orders
-# placeholder = st.empty()
-#
-# # Real-time Order Tracker Function
-# def fetch_orders():
-#     try:
-#         while True:
-#             # Fetch the list of orders
-#             orders = dhan.get_order_list()
-#
-#             # Update the Streamlit app with the fetched orders
-#             with placeholder.container():
-#                 st.subheader("Updated Orders")
-#                 if orders:
-#                     st.json(orders)
-#                 else:
-#                     st.info("No orders found.")
-#                 st.write("=" * 50)
-#
-#             # Sleep to avoid overwhelming the server
-#             time.sleep(5)
-#     except Exception as e:
-#         st.error(f"Error fetching orders: {e}")
-#     except KeyboardInterrupt:
-#         st.info("Stopped fetching orders.")
-#
-# # Streamlit Button to Start Fetching Orders
-# if st.button("Start Tracking Orders"):
-#     st.info("Fetching orders...")
-#     fetch_orders()
+if st.button("Refresh Data"):
+    if received_data:
+        for idx, entry in enumerate(received_data):
+            st.write(f"### Entry {idx + 1}")
+            st.json(entry)
+    else:
+        st.info("No data received yet. Send some data to the webhook to get started.")
 
 
 # import streamlit as st
